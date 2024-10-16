@@ -1,12 +1,14 @@
 import 'package:chat/constants/routes.dart';
 import 'package:chat/firebase_options.dart';
-import 'package:chat/theme/palette.dart';
-import 'package:chat/views/calls/calling_view.dart';
+import 'package:chat/services/auth/auth_controller.dart';
+import 'package:chat/theme/theme_data.dart';
+import 'package:chat/utils/widgets/error_view.dart';
+import 'package:chat/utils/widgets/loading_view.dart';
 import 'package:chat/views/home_view.dart';
-import 'package:chat/views/chats/conversation_view.dart';
-import 'package:chat/views/updates/update.dart';
+import 'package:chat/views/login/welcome_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,38 +16,37 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'WhatsApp Clone',
-      theme: ThemeData.dark(
-        useMaterial3: true,
-      ).copyWith(
-        scaffoldBackgroundColor: Palette.scaffoldBackgroundColor,
-        appBarTheme: const AppBarTheme(
-            centerTitle: false,
-            color: Palette.appBarColor,
-            titleTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-            iconTheme: IconThemeData(color: Colors.white)),
+    ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'WhatsApp Clone',
+        theme: themeData,
+        home: const HomePage(),
+        onGenerateRoute: (settings) {
+          return generateRoute(settings);
+        },
       ),
-      home: const HomePage(),
-      routes: {
-        chatRoute: (context) => const ConversationView(),
-        updateRoute: (context) => const Update(),
-        callRoute: (context) => const CallingView(),
-      },
     ),
   );
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const HomeView();
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(userDataAuthProvider).when(
+          data: (user) {
+            if (user == null) {
+              return const WelcomeView();
+            } else {
+              return const HomeView();
+            }
+          },
+          error: (err, trace) {
+            return ErrorView(error: err.toString());
+          },
+          loading: () => const LoadingView(),
+        );
   }
 }

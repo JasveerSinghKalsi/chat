@@ -15,13 +15,15 @@ class MessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Align(
       alignment: isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.8),
+        constraints: BoxConstraints(maxWidth: size.width * 0.8),
         child: Card(
-          color:
-              isSentByMe ? Palette.userMessageColor : Palette.senderMessageColor,
+          color: isSentByMe
+              ? Palette.userMessageColor
+              : Palette.senderMessageColor,
           elevation: 2.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -31,13 +33,13 @@ class MessageCard extends StatelessWidget {
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 4, bottom: 20, left: 4, right: 4),
+                  padding: const EdgeInsets.only(
+                      top: 4, bottom: 20, left: 4, right: 4),
                   child: Text(
                     message,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
-            
                 Positioned(
                   bottom: 1,
                   right: 1,
@@ -50,8 +52,15 @@ class MessageCard extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      const SizedBox(width: 4,),
-                      isSentByMe ? const Icon(Icons.done_all, size: 16,) : const SizedBox(),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      isSentByMe
+                          ? const Icon(
+                              Icons.done_all,
+                              size: 16,
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ),

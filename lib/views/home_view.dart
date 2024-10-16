@@ -22,7 +22,6 @@ class _HomeViewState extends State<HomeView>
     _tabController = TabController(length: 3, vsync: this);
     _pageController = PageController(initialPage: _tabController.index);
 
-    // Add listener to synchronize TabBar with PageView
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         _pageController.jumpToPage(_tabController.index);
@@ -50,14 +49,11 @@ class _HomeViewState extends State<HomeView>
     }
   }
 
-  // Function to return the correct FAB based on the current tab index
   Widget _getFloatingActionButton(int tabIndex) {
     switch (tabIndex) {
       case 0:
         return FloatingActionButton(
-          onPressed: () {
-            // Add your action for Chats view here
-          },
+          onPressed: () {},
           backgroundColor: Palette.tabColor,
           child: const Icon(
             Icons.comment,
@@ -66,9 +62,7 @@ class _HomeViewState extends State<HomeView>
         );
       case 1:
         return FloatingActionButton(
-          onPressed: () {
-            // Add your action for Updates view here
-          },
+          onPressed: () {},
           backgroundColor: Palette.tabColor,
           child: const Icon(
             Icons.camera_alt,
@@ -77,9 +71,7 @@ class _HomeViewState extends State<HomeView>
         );
       case 2:
         return FloatingActionButton(
-          onPressed: () {
-            // Add your action for Calls view here
-          },
+          onPressed: () {},
           backgroundColor: Palette.tabColor,
           child: const Icon(
             Icons.add_call,
@@ -119,7 +111,7 @@ class _HomeViewState extends State<HomeView>
         controller: _pageController,
         onPageChanged: (index) {
           _tabController.animateTo(index);
-          setState(() {}); // Force rebuild to update FAB
+          setState(() {});
         },
         children: [
           _getTabView(0),
@@ -130,12 +122,6 @@ class _HomeViewState extends State<HomeView>
       floatingActionButton: _getFloatingActionButton(_tabController.index),
       bottomNavigationBar: TabBar(
         controller: _tabController,
-        indicatorColor: Palette.tabColor,
-        labelColor: Palette.tabColor,
-        unselectedLabelColor: Colors.white,
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
         tabs: const [
           Tab(icon: Icon(Icons.chat), text: 'Chats'),
           Tab(icon: Icon(Icons.update), text: 'Updates'),
