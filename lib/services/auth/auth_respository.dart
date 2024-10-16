@@ -67,6 +67,15 @@ class AuthRespository {
     }
   }
 
+  Future<bool> doesUserProfileExist() async {
+    final uid = auth.currentUser?.uid;
+    if (uid != null) {
+      final userDoc = await firestore.collection('users').doc(uid).get();
+      return userDoc.exists;
+    }
+    return false;
+  }
+
   void saveUserDataToFirebase({
     required BuildContext context,
     required String profileName,
@@ -90,7 +99,7 @@ class AuthRespository {
       );
       await firestore.collection('users').doc(uid).set(user.toMap());
       if (context.mounted) {
-        Navigator.pushNamedAndRemoveUntil(context, homeRoute, (route) => false);
+        Navigator.pushReplacementNamed(context, homeRoute);
       }
     } catch (e) {
       if (context.mounted) {
@@ -107,5 +116,14 @@ class AuthRespository {
       user = UserModel.fromMap(userData.data()!);
     }
     return user;
+  }
+
+  Future<void> signOut(BuildContext context) async {
+    try {
+      await auth.signOut();
+    } catch (e) {
+      if (context.mounted)
+        showSnackBar(context: context, content: e.toString());
+    }
   }
 }

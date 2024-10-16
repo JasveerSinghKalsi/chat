@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:chat/constants/routes.dart';
 import 'package:chat/services/auth/auth_controller.dart';
 import 'package:chat/theme/palette.dart';
-import 'package:chat/utils/Functions/pick_image_from_gallery.dart';
+import 'package:chat/utils/functions/pick_image_from_gallery.dart';
 import 'package:chat/utils/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,12 +36,17 @@ class _CreateProfileViewState extends ConsumerState<CreateProfileView> {
     setState(() {});
   }
 
-  void storeUserData() async {
+  Future<void> storeUserData() async {
     String name = _name.text.trim();
     if (name.isNotEmpty) {
+      // Navigate to account creation loading screen
+      Navigator.pushNamed(context, loadingRoute);
+
       ref
           .read(authControllerProvider)
           .saveUserDataToFirebase(context, name, image);
+
+      Navigator.pushNamedAndRemoveUntil(context, homeRoute, (route) => false);
     }
   }
 

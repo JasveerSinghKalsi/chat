@@ -1,17 +1,21 @@
-import 'package:chat/theme/palette.dart';
+import 'package:chat/services/auth/auth_controller.dart';
+import 'package:chat/utils/dialogs/logout_dialog.dart';
+import 'package:chat/utils/enums/menu_actions.dart';
+import 'package:chat/utils/widgets/custom_floating_button.dart';
 import 'package:chat/views/calls/call_view.dart';
 import 'package:chat/views/chats/chat_view.dart';
 import 'package:chat/views/updates/update_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView>
+class _HomeViewState extends ConsumerState<HomeView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -52,41 +56,13 @@ class _HomeViewState extends State<HomeView>
   Widget _getFloatingActionButton(int tabIndex) {
     switch (tabIndex) {
       case 0:
-        return FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Palette.tabColor,
-          child: const Icon(
-            Icons.comment,
-            color: Colors.white,
-          ),
-        );
+        return const CustomFloatingButton(icon: Icons.comment);
       case 1:
-        return FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Palette.tabColor,
-          child: const Icon(
-            Icons.camera_alt,
-            color: Colors.white,
-          ),
-        );
+        return const CustomFloatingButton(icon: Icons.update);
       case 2:
-        return FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Palette.tabColor,
-          child: const Icon(
-            Icons.add_call,
-            color: Colors.white,
-          ),
-        );
+        return const CustomFloatingButton(icon: Icons.call);
       default:
-        return FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Palette.tabColor,
-          child: const Icon(
-            Icons.comment,
-            color: Colors.white,
-          ),
-        );
+        return const CustomFloatingButton(icon: Icons.comment);
     }
   }
 
@@ -101,10 +77,25 @@ class _HomeViewState extends State<HomeView>
             icon: const Icon(Icons.search),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
+          PopupMenuButton<MenuAction>(
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text('Logout'),
+                ),
+              ];
+            },
+            onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  if (shouldLogout && context.mounted) {
+                    ref.read(authControllerProvider).logout(context);
+                  }
+              }
+            },
+          )
         ],
       ),
       body: PageView(

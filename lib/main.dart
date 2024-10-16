@@ -2,8 +2,8 @@ import 'package:chat/constants/routes.dart';
 import 'package:chat/firebase_options.dart';
 import 'package:chat/services/auth/auth_controller.dart';
 import 'package:chat/theme/theme_data.dart';
-import 'package:chat/utils/widgets/error_view.dart';
-import 'package:chat/utils/widgets/loading_view.dart';
+import 'package:chat/utils/helpers/error_view.dart';
+import 'package:chat/utils/helpers/loading_view.dart';
 import 'package:chat/views/home_view.dart';
 import 'package:chat/views/login/welcome_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +46,7 @@ class HomePage extends ConsumerWidget {
           error: (err, trace) {
             return ErrorView(error: err.toString());
           },
-          loading: () => const LoadingView(),
+          loading: () => const LoadingView(text: 'Loading',),
         );
   }
 }
