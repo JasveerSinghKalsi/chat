@@ -1,5 +1,6 @@
+import 'package:chat/services/select_contact/select_contacts_view.dart';
 import 'package:chat/utils/helpers/error_view.dart';
-import 'package:chat/utils/helpers/loading_view.dart';
+import 'package:chat/views/chats/conversation_view.dart';
 import 'package:chat/views/home_view.dart';
 import 'package:chat/views/login/create_profile_view.dart';
 import 'package:chat/views/login/login_view.dart';
@@ -12,8 +13,10 @@ const loginRoute = '/login/';
 const verifyRoute = '/verify/';
 const createProfileRoute = '/create-profile/';
 const loadingRoute = '/loading/';
+const selectContactsRoute = '/select-contacts/';
 const homeRoute = '/home/';
 const chatRoute = '/chat/';
+const conversationRoute = '/conversation/';
 const updateRoute = '/update/';
 const callRoute = '/call/';
 
@@ -32,11 +35,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
     case createProfileRoute:
       return MaterialPageRoute(builder: (context) => const CreateProfileView());
-    case loadingRoute:
-      return MaterialPageRoute(builder: (context) => const LoadingView(text: 'Creating Profile',));
+    case selectContactsRoute:
+      return MaterialPageRoute(
+          builder: (context) => const SelectContactsView());
     case homeRoute:
       return MaterialPageRoute(builder: (context) => const HomeView());
+    case conversationRoute:
+      return MaterialPageRoute(builder: (context) => const ConversationView());
     default:
-      return MaterialPageRoute(builder: (context) => const ErrorView(error: 'An error occured'));
+      return MaterialPageRoute(
+          builder: (context) => const ErrorView(error: 'An error occured'));
   }
 }

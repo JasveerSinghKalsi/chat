@@ -1,3 +1,4 @@
+import 'package:chat/constants/routes.dart';
 import 'package:chat/services/auth/auth_controller.dart';
 import 'package:chat/utils/dialogs/logout_dialog.dart';
 import 'package:chat/utils/enums/menu_actions.dart';
@@ -56,13 +57,27 @@ class _HomeViewState extends ConsumerState<HomeView>
   Widget _getFloatingActionButton(int tabIndex) {
     switch (tabIndex) {
       case 0:
-        return const CustomFloatingButton(icon: Icons.comment);
+        return CustomFloatingButton(
+          icon: Icons.comment,
+          onPressed: () {
+            Navigator.of(context).pushNamed(selectContactsRoute);
+          },
+        );
       case 1:
-        return const CustomFloatingButton(icon: Icons.update);
+        return CustomFloatingButton(
+          icon: Icons.update,
+          onPressed: () {},
+        );
       case 2:
-        return const CustomFloatingButton(icon: Icons.call);
+        return CustomFloatingButton(
+          icon: Icons.call,
+          onPressed: () {},
+        );
       default:
-        return const CustomFloatingButton(icon: Icons.comment);
+        return CustomFloatingButton(
+          icon: Icons.comment,
+          onPressed: () {},
+        );
     }
   }
 

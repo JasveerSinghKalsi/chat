@@ -4,12 +4,12 @@ class LoadingView extends StatelessWidget {
   final String text;
   const LoadingView({
     super.key,
-    required this.text,
+    this.text = 'Loading',
   });
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

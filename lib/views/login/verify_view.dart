@@ -45,6 +45,7 @@ class VerifyView extends ConsumerWidget {
                 },
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
+                autofocus: true,
                 decoration: const InputDecoration(
                   hintText: '- - - - - -',
                   hintStyle: TextStyle(fontSize: 30),

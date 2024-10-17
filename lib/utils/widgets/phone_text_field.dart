@@ -47,6 +47,7 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
         keyboardType: TextInputType.phone,
         style: const TextStyle(fontSize: 20),
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        autofocus: true,
         decoration: InputDecoration(
           prefixIcon: GestureDetector(
             onTap: _pickCountry,

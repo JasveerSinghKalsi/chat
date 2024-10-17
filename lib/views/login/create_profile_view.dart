@@ -39,9 +39,6 @@ class _CreateProfileViewState extends ConsumerState<CreateProfileView> {
   Future<void> storeUserData() async {
     String name = _name.text.trim();
     if (name.isNotEmpty) {
-      // Navigate to account creation loading screen
-      Navigator.pushNamed(context, loadingRoute);
-
       ref
           .read(authControllerProvider)
           .saveUserDataToFirebase(context, name, image);

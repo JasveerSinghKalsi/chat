@@ -18,7 +18,7 @@ class _ChatViewState extends State<ChatView> {
       itemBuilder: (context, index) {
         return ListTile(
           onTap: () {
-            Navigator.of(context).pushNamed(chatRoute);
+            Navigator.of(context).pushNamed(conversationRoute);
           },
           leading: const CircleAvatar(
             radius: 24,

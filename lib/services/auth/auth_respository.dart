@@ -94,7 +94,7 @@ class AuthRespository {
         uid: uid,
         name: profileName,
         profilePic: photoUrl,
-        phoneNumber: auth.currentUser!.uid,
+        phoneNumber: auth.currentUser!.phoneNumber!,
         isOnline: true,
       );
       await firestore.collection('users').doc(uid).set(user.toMap());
@@ -122,8 +122,9 @@ class AuthRespository {
     try {
       await auth.signOut();
     } catch (e) {
-      if (context.mounted)
+      if (context.mounted) {
         showSnackBar(context: context, content: e.toString());
+      }
     }
   }
 }

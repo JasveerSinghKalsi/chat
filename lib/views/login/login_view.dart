@@ -74,6 +74,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 )
               ],
             ),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
               child: CustomButton(
