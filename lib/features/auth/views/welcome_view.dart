@@ -1,4 +1,4 @@
-import 'package:chat/constants/routes.dart';
+import 'package:chat/constants/router.dart';
 import 'package:chat/theme/palette.dart';
 import 'package:chat/utils/widgets/custom_button.dart';
 import 'package:flutter/gestures.dart';

@@ -1,4 +1,4 @@
-import 'package:chat/services/select_contact/select_contact_controller.dart';
+import 'package:chat/features/select_contact/select_contact_controller.dart';
 import 'package:chat/theme/palette.dart';
 import 'package:chat/utils/helpers/error_view.dart';
 import 'package:chat/utils/helpers/loading_view.dart';
@@ -20,11 +20,15 @@ class SelectContactsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Contacts'),
+        title: const Text('Select Contact'),
         actions: [
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_vert),
           ),
         ],
       ),
@@ -36,19 +40,16 @@ class SelectContactsView extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: contact.photo == null
-                        ? const CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Palette.tabColor,
-                          )
-                        : CircleAvatar(
-                            radius: 25,
-                            backgroundImage: MemoryImage(contact.photo!),
-                          ),
+                    onTap: () => selectContact(context, ref, contact),
+                    leading: CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Palette.tabColor,
+                      foregroundImage: contact.photo == null
+                          ? null
+                          : MemoryImage(contact.photo!),
+                    ),
                     title: Text(contact.displayName),
                     subtitle: Text(contact.phones.first.number),
-                    enableFeedback: true,
-                    onTap: () => selectContact(context, ref, contact),
                   ),
                 );
               },

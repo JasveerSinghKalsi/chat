@@ -1,11 +1,9 @@
-import 'package:chat/constants/routes.dart';
-import 'package:chat/services/auth/auth_controller.dart';
+import 'package:chat/constants/router.dart';
+import 'package:chat/features/auth/auth_controller.dart';
 import 'package:chat/utils/dialogs/logout_dialog.dart';
 import 'package:chat/utils/enums/menu_actions.dart';
 import 'package:chat/utils/widgets/custom_floating_button.dart';
-import 'package:chat/views/calls/call_view.dart';
-import 'package:chat/views/chats/chat_view.dart';
-import 'package:chat/views/updates/update_view.dart';
+import 'package:chat/features/chat/chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,9 +44,9 @@ class _HomeViewState extends ConsumerState<HomeView>
       case 0:
         return const ChatView();
       case 1:
-        return const UpdateView();
+        return Container(); // UpdatesView
       case 2:
-        return const CallView();
+        return Container(); // CallView
       default:
         return const ChatView();
     }

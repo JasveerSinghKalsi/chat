@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:chat/constants/routes.dart';
-import 'package:chat/services/models/user_model.dart';
-import 'package:chat/services/storage/firebase_storage_repository.dart';
-import 'package:chat/utils/widgets/show_snack_bar.dart';
+import 'package:chat/constants/router.dart';
+import 'package:chat/models/user_model.dart';
+import 'package:chat/features/storage/firebase_storage_repository.dart';
+import 'package:chat/utils/helpers/show_snack_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,7 @@ class AuthRespository {
     }
   }
 
-  Future<void> verifyOTP({
+  void verifyOTP({
     required BuildContext context,
     required String verificationId,
     required String userOTP,
@@ -78,28 +78,29 @@ class AuthRespository {
 
   void saveUserDataToFirebase({
     required BuildContext context,
+    required ProviderRef ref,
     required String profileName,
     required File? profilePic,
-    required ProviderRef ref,
   }) async {
     try {
       String uid = auth.currentUser!.uid;
-      late String? photoUrl;
+      String photoUrl =
+          'https://png.pngitem.com/pimgs/s/649-6490124_katie-notopoulos-katienotopoulos-i-write-about-tech-round.png';
       if (profilePic != null) {
         photoUrl = await ref
             .read(firebaseStorageRepositoryProvider)
             .storeFileToFirebase('profilePic/$uid', profilePic);
       }
       var user = UserModel(
-        uid: uid,
         name: profileName,
+        uid: uid,
         profilePic: photoUrl,
         phoneNumber: auth.currentUser!.phoneNumber!,
         isOnline: true,
       );
       await firestore.collection('users').doc(uid).set(user.toMap());
       if (context.mounted) {
-        Navigator.pushReplacementNamed(context, homeRoute);
+        Navigator.pushNamedAndRemoveUntil(context, homeRoute, (route) => false);
       }
     } catch (e) {
       if (context.mounted) {
@@ -126,5 +127,11 @@ class AuthRespository {
         showSnackBar(context: context, content: e.toString());
       }
     }
+  }
+
+  Stream<UserModel> userData(String userId) {
+    return firestore.collection('users').doc(userId).snapshots().map(
+          (event) => UserModel.fromMap(event.data()!),
+        );
   }
 }

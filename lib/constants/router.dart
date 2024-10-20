@@ -1,11 +1,11 @@
-import 'package:chat/services/select_contact/select_contacts_view.dart';
+import 'package:chat/features/select_contact/select_contacts_view.dart';
 import 'package:chat/utils/helpers/error_view.dart';
-import 'package:chat/views/chats/conversation_view.dart';
-import 'package:chat/views/home_view.dart';
-import 'package:chat/views/login/create_profile_view.dart';
-import 'package:chat/views/login/login_view.dart';
-import 'package:chat/views/login/verify_view.dart';
-import 'package:chat/views/login/welcome_view.dart';
+import 'package:chat/features/chat/conversation_view.dart';
+import 'package:chat/home_view.dart';
+import 'package:chat/features/auth/views/create_profile_view.dart';
+import 'package:chat/features/auth/views/login_view.dart';
+import 'package:chat/features/auth/views/verify_view.dart';
+import 'package:chat/features/auth/views/welcome_view.dart';
 import 'package:flutter/material.dart';
 
 const welcomeRoute = '/welcom/';
@@ -15,19 +15,18 @@ const createProfileRoute = '/create-profile/';
 const loadingRoute = '/loading/';
 const selectContactsRoute = '/select-contacts/';
 const homeRoute = '/home/';
-const chatRoute = '/chat/';
 const conversationRoute = '/conversation/';
 const updateRoute = '/update/';
 const callRoute = '/call/';
 
-Route<dynamic> generateRoute(RouteSettings routeSettings) {
-  switch (routeSettings.name) {
+Route<dynamic> generateRoute(RouteSettings settings) {
+  switch (settings.name) {
     case welcomeRoute:
       return MaterialPageRoute(builder: (context) => const WelcomeView());
     case loginRoute:
       return MaterialPageRoute(builder: (context) => const LoginView());
     case verifyRoute:
-      final verificationId = routeSettings.arguments as String;
+      final verificationId = settings.arguments as String;
       return MaterialPageRoute(
         builder: (context) => VerifyView(
           verificationId: verificationId,
@@ -41,7 +40,18 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case homeRoute:
       return MaterialPageRoute(builder: (context) => const HomeView());
     case conversationRoute:
-      return MaterialPageRoute(builder: (context) => const ConversationView());
+      final arguments = settings.arguments as Map<String, dynamic>;
+      final name = arguments['name'];
+      final uid = arguments['uid'];
+      final profilePic = arguments['profilePic'];
+      final isGroupChat = arguments['isGroupChat'];
+      return MaterialPageRoute(
+          builder: (context) => ConversationView(
+                name: name,
+                uid: uid,
+                profilePic: profilePic,
+                isGroupChat: isGroupChat,
+              ));
     default:
       return MaterialPageRoute(
           builder: (context) => const ErrorView(error: 'An error occured'));

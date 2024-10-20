@@ -1,4 +1,4 @@
-import 'package:chat/services/select_contact/select_contact_repository.dart';
+import 'package:chat/features/select_contact/select_contact_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

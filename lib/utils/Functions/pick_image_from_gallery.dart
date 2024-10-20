@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:chat/utils/widgets/show_snack_bar.dart';
+import 'package:chat/utils/helpers/show_snack_bar.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<File?> pickImageFromGallery(BuildContext context) async {
