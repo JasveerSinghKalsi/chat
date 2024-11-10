@@ -22,10 +22,6 @@ class _ChatViewState extends ConsumerState<ChatView> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No chats available'));
-        }
-
         return ListView.builder(
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {

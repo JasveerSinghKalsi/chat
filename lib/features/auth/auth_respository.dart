@@ -58,16 +58,24 @@ class AuthRespository {
         smsCode: userOTP,
       );
       await auth.signInWithCredential(credential);
+
+      bool profileExists = await _doesUserProfileExist();
+
       if (context.mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, createProfileRoute, (route) => false);
+        if (profileExists) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, homeRoute, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, createProfileRoute, (route) => false);
+        }
       }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) showSnackBar(context: context, content: e.message!);
     }
   }
 
-  Future<bool> doesUserProfileExist() async {
+  Future<bool> _doesUserProfileExist() async {
     final uid = auth.currentUser?.uid;
     if (uid != null) {
       final userDoc = await firestore.collection('users').doc(uid).get();
